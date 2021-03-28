@@ -1,6 +1,20 @@
 /*
-	Silvercrest Doorbell HG06668 
-*/
+ *
+ *	Silvercrest Doorbell HG06668
+ *	Author: Vincent van Didden (Vincentiano)
+ *  Version: 1.0.0
+ *  Date: 28-03-2021
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License. You may obtain a copy of the License at:
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
+ *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
+ *  for the specific language governing permissions and limitations under the License.
+ *
+ */
 
 import groovy.transform.Field
 
@@ -34,7 +48,7 @@ deviceTypeId: 0x0402
 manufacturer: Heiman
 */
 	}
-        
+
     preferences {
         //standard logging options
         input name: "logEnable", type: "bool", title: "Enable debug logging", defaultValue: true
@@ -51,10 +65,10 @@ def parse(String description) {
 	if (logEnable) log.debug "description is ${description}"
 	if (description.startsWith("catchall")) return
     if (description.startsWith("zone status")){
-        def zs = zigbee.parseZoneStatus(description) 
+        def zs = zigbee.parseZoneStatus(description)
         if(zs.tamper == 1){
             log.warn "Doorbell Tamper Detected"
-         setTamperAlert(1)   
+         setTamperAlert(1)
         }else if(device.currentValue("tamper") == "detected"){
             log.warn "Doorbell Tamper Cleared"
             setTamperAlert(0)
@@ -64,11 +78,11 @@ def parse(String description) {
     }
     def descMap = zigbee.parseDescriptionAsMap(description)
     if (logEnable) log.debug "descMap:${descMap}"
-	
+
 	def cluster = descMap.cluster
 	def hexValue = descMap.value
 	def attrId = descMap.attrId
-	
+
 	switch (cluster){
 		case "0000" :	//basic
             if (logEnable) log.debug "Basic is ${hexValue}"
@@ -137,13 +151,13 @@ def on() {
 
 def refresh() {
     log.debug "Refresh"
-    
+
 	//readAttribute(cluster,attribute,mfg code,optional delay ms)
     def cmds = zigbee.readAttribute(0x0500,0x0000,[:],200)		//temp
     	diagAttributes.each{ it ->
             //log.debug "it:${it.value.val}"
-			cmds +=  zigbee.readAttribute(0x0B05,it.value.val,[:],200) 
-		}  
+			cmds +=  zigbee.readAttribute(0x0B05,it.value.val,[:],200)
+		}
     log.info "cmds:${cmds}"
     return cmds
 }
@@ -151,7 +165,7 @@ def refresh() {
 def configure() {
     log.debug "Configuring Reporting and Bindings."
     runIn(1800,logsOff)
-    
+
     List cmds = zigbee.configureReporting(0x0001, 0x0020, DataType.UINT16, 30, 300, 0x01)
     cmds += zigbee.configureReporting(0x0003, 0x0000, DataType.UINT16, 1, 21600, 1)	//power
     cmds += zigbee.configureReporting(0x0500, 0x0000, DataType.UINT16, 1, 21600, 1)	//button
@@ -164,5 +178,5 @@ def updated() {
     log.trace "Updated()"
     log.warn "debug logging is: ${logEnable == true}"
     log.warn "description logging is: ${txtEnable == true}"
-    if (logEnable) runIn(1800,logsOff)    
+    if (logEnable) runIn(1800,logsOff)
 }
