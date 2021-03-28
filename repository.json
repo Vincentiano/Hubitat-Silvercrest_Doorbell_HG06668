@@ -1,0 +1,17 @@
+{
+  "author": "Vincent van Didden",
+  "gitHubUrl": "https://github.com/Vincentiano",
+  "payPalUrl": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SRVMXMFPKSJ6J&source=url",
+  "packages": [
+    {
+      "id": "ef802e74-d459-4aeb-a251-51bf914514df",
+      "name": "Silvercrest Doorbell HG06668",
+      "category": "Integrations",
+      "location": "https://raw.githubusercontent.com/Vincentiano/Hubitat-Silvercrest_Doorbell_HG06668/main/packageManifest.json",
+      "description": "This is a driver for the silvercrest doorbell (or Heiman doorbell)",
+      "tags": [
+        "Buttons"
+      ]
+    }
+  ]
+}

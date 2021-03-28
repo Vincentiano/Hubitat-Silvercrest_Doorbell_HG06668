@@ -3,5 +3,14 @@
   "author": "Vincent van Didden",
   "version": "1.0.0",
   "minimumHEVersion": "2.1.9",
-  "dateReleased": "2021-03-21"
+  "dateReleased": "2021-03-21",
+  "drivers": [
+    {
+      "id": "6e16e913-cfc1-4e33-801f-43b479e8d6ea",
+      "name": "Silvercrest Doorbell HG06668",
+      "namespace": "Vincentiano",
+      "location": "https://raw.githubusercontent.com/Vincentiano/Hubitat-Silvercrest_Doorbell_HG06668/main/Silvercrest_Doorbell_HG06668.groovy",
+      "required": true
+    }
+  ]
 }
