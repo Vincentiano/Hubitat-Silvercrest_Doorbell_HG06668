@@ -31,15 +31,15 @@ import groovy.transform.Field
     ]
 
 metadata {
-    definition (name: "Silvercrest Doorbell HG06668", namespace: "Vincentiano", author: "Vincent van Didden") {
+  definition (name: "Silvercrest Doorbell HG06668", namespace: "Vincentiano", author: "Vincent van Didden") {
 	capability "Configuration"
 	capability "Refresh"
 	capability "Battery"
-    capability "TamperAlert"
+  capability "TamperAlert"
 	capability "PushableButton"
 	capability "Switch"
 
-   fingerprint profileId: "0260", endpointId:"01", device_type: "0402", inClusters: "0000,0001,0003,0500,0B05", outClusters:"0019", manufacturer: "_TZ1800_ladpngdx", model: "TS0211", class: "zigpy.device.Device", deviceJoinName: "Silvercrest Doorbell HG06668"
+  fingerprint profileId: "0260", endpointId:"01", device_type: "0402", inClusters: "0000,0001,0003,0500,0B05", outClusters:"0019", manufacturer: "_TZ1800_ladpngdx", model: "TS0211", class: "zigpy.device.Device", deviceJoinName: "Silvercrest Doorbell HG06668"
 /*
 Manufacturer: _TZ1800_ladpngdx
 Product Name: Silvercrest Doorbell HG06668
@@ -49,7 +49,7 @@ manufacturer: Heiman
 */
 	}
 
-    preferences {
+  preferences {
         //standard logging options
         input name: "logEnable", type: "bool", title: "Enable debug logging", defaultValue: true
         input name: "txtEnable", type: "bool", title: "Enable descriptionText logging", defaultValue: true
@@ -125,7 +125,7 @@ private readButtonState(hex){
 
 private readBatteryState(hex){
     def rawValue = hexStrToSignedInt(hex)
-    def value = Math.round(rawValue/255.0*100.0)
+    def value = rawValue? Math.round(rawValue/255.0*100.0):0
     def name = "battery"
     def descriptionText = "${device.displayName} ${name} is ${value} %"
     if (txtEnable) log.info "${descriptionText}"
